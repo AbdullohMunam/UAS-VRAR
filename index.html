@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Institut ASIA in AR</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            marian_blue: {
+              DEFAULT: '#18408B',
+              100: '#050d1c',
+              200: '#091a38',
+              300: '#0e2754',
+              400: '#133370',
+              500: '#18408b',
+              600: '#225cc7',
+              700: '#4d81e1',
+              800: '#88abeb',
+              900: '#c4d5f5',
+            },
+            fire_brick: {
+              DEFAULT: '#BA252D',
+              100: '#250709',
+              200: '#4b0f12',
+              300: '#70161b',
+              400: '#961e24',
+              500: '#ba252d',
+              600: '#d94048',
+              700: '#e37076',
+              800: '#eca0a3',
+              900: '#f6cfd1',
+            },
+            powder_blue: '#92A4C2',
+            jonquil: '#FBCD04',
+            old_gold: '#D1B427',
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    #splash {
+      position: fixed;
+      inset: 0;
+      background: #18408B;
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      animation: fadeOut 2s ease forwards;
+      animation-delay: 2s;
+    }
+    #splash h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      line-height: 1;
+      text-align: center;
+    }
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+  <!-- Splash Screen -->
+  <div id="splash">
+    <img src="assets/images/logo.png" alt="Logo Institut ASIA" class="w-40 md:w-52 mb-6">
+    <h1>
+      Institut ASIA<br>
+      <span class="text-jonquil">in AR</span>
+    </h1>
+  </div>
+
+  <!-- Main Content -->
+  <main class="min-h-screen px-6 py-12 flex flex-col items-center space-y-12">
+    <!-- Header -->
+    <section class="text-center max-w-3xl">
+      <h1 class="text-5xl font-extrabold text-gray-900 dark:text-white mb-4">Institut ASIA in AR</h1>
+      <p class="text-lg text-gray-700 dark:text-gray-300">
+        Jelajahi kampus Institut Asia Malang dengan teknologi Augmented Reality. Arahkan kamera ke gambar marker di bawah untuk melihat konten interaktif secara langsung!
+      </p>
+    </section>
+
+    <!-- Marker Grid -->
+    <section class="w-full max-w-6xl grid gap-10">
+      <!-- Marker Item -->
+      <div class="flex flex-col md:flex-row items-center gap-8 bg-gray-100 dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
+        <img src="marker/pattern-logo_asia.png" alt="Marker Logo" class="w-48 rounded-lg shadow">
+        <div>
+          <h2 class="text-2xl font-semibold text-gray-900 dark:text-white">Marker Institut ASIA</h2>
+          <p class="text-gray-600 dark:text-gray-300">Gunakan marker ini untuk melihat informasi Institut ASIA dengan objek 3D didalam dunia AR.</p>
+        </div>
+      </div>
+
+      <div class="flex flex-col md:flex-row items-center gap-8 bg-gray-100 dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
+        <img src="marker/pattern-Prestasi-ASIA.png" alt="Marker Prestasi" class="w-48 rounded-lg shadow">
+        <div>
+          <h2 class="text-2xl font-semibold text-gray-900 dark:text-white">Marker Prestasi ASIA</h2>
+          <p class="text-gray-600 dark:text-gray-300">Tampilkan berbagai prestasi kampus Institut Asia dalam bentuk galeri 3D interaktif melalui marker ini.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Button -->
+    <div class="text-center">
+      <a href="scan.html" class="inline-block bg-fire_brick-500 hover:bg-fire_brick-600 text-white text-lg font-bold py-3 px-8 rounded-full shadow-lg transition">
+        SCAN Sekarang
+      </a>
+    </div>
+  </main>
+</body>
+
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Institut ASIA in AR</title>
+  <script src="assets/js/aframe.min.js"></script>
+  <script src="assets/js/aframe-ar.js"></script>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+  </style>
+</head>
+
+<body>
+  <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+    <a-assets>
+      <!-- Tentang ASIA -->
+      <a-asset-item id="asia-logo" src="assets/3d/logo-asia.glb"></a-asset-item>
+      <a-asset-item id="kampus-asia" src="assets/3d/Kampus_Asia.glb"></a-asset-item>
+      <a-asset-item id="jurusan-asia" src="assets/3d/maskot-asia.glb"></a-asset-item>
+
+      <audio id="audio-asia1" src="assets/audio/tentang-asia.mp3"></audio>
+      <audio id="audio-asia2" src="assets/audio/gedung-asia.mp3"></audio>
+      <audio id="audio-asia3" src="assets/audio/jurusan-asia.mp3"></audio>
+
+      <!-- Prestasi -->
+      <img id="prestasi-1" src="assets/images/prestasi-1.jpeg" />
+      <img id="prestasi-2" src="assets/images/prestasi-2.jpeg" />
+      <img id="prestasi-3" src="assets/images/prestasi-3.jpeg" />
+      <img id="prestasi-4" src="assets/images/prestasi-4.jpeg" />
+      <img id="prestasi-5" src="assets/images/prestasi-5.jpeg" />
+
+      <audio id="audio1" src="assets/audio/prestasi-1.mp3"></audio>
+      <audio id="audio2" src="assets/audio/prestasi-2.mp3"></audio>
+      <audio id="audio3" src="assets/audio/prestasi-3.mp3"></audio>
+      <audio id="audio4" src="assets/audio/prestasi-4.mp3"></audio>
+      <audio id="audio5" src="assets/audio/prestasi-5.mp3"></audio>
+    </a-assets>
+
+    <a-camera-static camera="fov: 70; near: 0.01; far: 1000"></a-camera-static>
+
+    <!-- Marker Tentang ASIA -->
+    <a-marker type="pattern" url="assets/pattern/pattern-logo_asia.patt" id="marker-asia" emitevents="true">
+      <a-entity id="model-asia" position="0 0 0" rotation="-90 0 0" visible="true"></a-entity>
+
+      <!-- Instruksi -->
+      <a-entity position="0 -0.4 1.2" rotation="-90 0 0">
+        <a-box width="2" height="0.3" depth="0.1" position="0 0 0" color="#222"></a-box>
+        <a-text value="Gunakan tombol kiri/kanan untuk ganti info.\nSpasi untuk dengarkan audio" align="center"
+          color="yellow" width="1.8" position="0 0 0.06"></a-text>
+      </a-entity>
+
+      <!-- Deskripsi -->
+      <a-entity id="descBoxAsia" position="1.8 0 0" rotation="-90 0 0">
+        <a-box width="1.8" height="0.8" depth="0.1" position="0 0 0" color="#222"></a-box>
+        <a-text id="descAsia" value="" align="left" wrap-count="33" color="white" width="1.7"
+          position="-0.85 0.25 0.06"></a-text>
+      </a-entity>
+    </a-marker>
+
+    <!-- Marker Prestasi -->
+    <a-marker type="pattern" url="assets/pattern/pattern-Prestasi-ASIA.patt" id="marker-prestasi" emitevents="true">
+      <a-plane id="image-plane" position="0 0 0" rotation="-90 0 0" width="1.5" height="1"
+        material="shader: flat;"></a-plane>
+
+      <a-entity position="0 -0.4 1.2" rotation="-90 0 0">
+        <a-box width="2" height="0.3" depth="0.1" position="0 0 0" color="#222"></a-box>
+        <a-text value="Gunakan tombol kiri/kanan untuk ganti gambar.\nSpasi untuk dengarkan audio" align="center"
+          color="yellow" width="1.8" position="0 0 0.06"></a-text>
+      </a-entity>
+
+      <a-entity id="descBoxPrestasi" position="1.8 0 0" rotation="-90 0 0">
+        <a-box width="1.8" height="0.8" depth="0.1" position="0 0 0" color="#222"></a-box>
+        <a-text id="descPrestasi" value="" align="left" wrap-count="33" color="white" width="1.7"
+          position="-0.85 0.25 0.06"></a-text>
+      </a-entity>
+    </a-marker>
+  </a-scene>
+
+  <script>
+    // --- TENTANG ASIA ---
+    const asiaModels = ['#asia-logo', '#kampus-asia', '#jurusan-asia'];
+    const asiaScales = ['0.7 0.7 0.7', '0.7 0.7 0.7', '0.7 0.7 0.7'];
+    const asiaDescriptions = [
+      'Institut Asia merupakan perguruan tinggi swasta berbasis Teknologi dan Bisnis di Kota Malang.                                             Objek: Logo ASIA',
+      'Kampus Institut Asia berada di Jl. Soekarno Hatta Rembuksari 1A Malang.             Objek: Gedung ASIA',
+      'Program Studi: TI, Sistem Komputer, DKV, Akuntansi, Bisnis, Magister Manajemen.                Objek: Maskot ASIA'
+    ];
+    const asiaAudios = [
+      document.getElementById('audio-asia1'),
+      document.getElementById('audio-asia2'),
+      document.getElementById('audio-asia3')
+    ];
+
+    let indexAsia = 0;
+    const modelAsia = document.querySelector('#model-asia');
+    const descAsia = document.querySelector('#descAsia');
+    const markerAsia = document.querySelector('#marker-asia');
+
+    function updateAsia() {
+      asiaAudios.forEach(audio => {
+        audio.pause();
+        audio.currentTime = 0;
+      });
+      modelAsia.removeAttribute('gltf-model');
+      setTimeout(() => {
+        modelAsia.setAttribute('gltf-model', asiaModels[indexAsia]);
+        modelAsia.setAttribute('scale', asiaScales[indexAsia]);
+        descAsia.setAttribute('value', asiaDescriptions[indexAsia]);
+      }, 50);
+    }
+
+    markerAsia.addEventListener('markerFound', () => {
+      updateAsia();
+    });
+
+    // --- PRESTASI ---
+    const prestasiImages = ['#prestasi-1', '#prestasi-2', '#prestasi-3', '#prestasi-4', '#prestasi-5'];
+    const prestasiDescriptions = [
+      'Mahasiswa Institut Asia juara Business Plan Competition di UNISMA.',
+      'Florera juara 2 di dua kategori lomba UNISMA.',
+      'Sampah Beruang juara 3 dan peringkat Bronze di I-Propex Malaysia.',
+      'Pokat Ginger Tea juara 2 dan favorit ide unik.',
+      'Mendapatkan Juara Di Kejuaraan Pencak Silat Tingkat Nasional SURABAYA CHAMPIONSHIP 2025.'
+    ];
+    const prestasiAudios = [
+      document.getElementById('audio1'),
+      document.getElementById('audio2'),
+      document.getElementById('audio3'),
+      document.getElementById('audio4'),
+      document.getElementById('audio5')
+    ];
+
+    let indexPrestasi = 0;
+    const imagePlane = document.querySelector('#image-plane');
+    const descPrestasi = document.querySelector('#descPrestasi');
+    const markerPrestasi = document.querySelector('#marker-prestasi');
+
+    function updatePrestasi() {
+      prestasiAudios.forEach(audio => {
+        audio.pause();
+        audio.currentTime = 0;
+      });
+      imagePlane.setAttribute('src', prestasiImages[indexPrestasi]);
+      descPrestasi.setAttribute('value', prestasiDescriptions[indexPrestasi]);
+    }
+
+    markerPrestasi.addEventListener('markerFound', () => {
+      updatePrestasi();
+    });
+
+    // --- KEY CONTROL ---
+    window.addEventListener('keydown', (e) => {
+      if (markerAsia.object3D.visible) {
+        if (e.key === 'ArrowRight') {
+          indexAsia = (indexAsia + 1) % asiaModels.length;
+          updateAsia();
+        } else if (e.key === 'ArrowLeft') {
+          indexAsia = (indexAsia - 1 + asiaModels.length) % asiaModels.length;
+          updateAsia();
+        } else if (e.key === ' ') {
+          asiaAudios[indexAsia].play();
+        }
+      }
+
+      if (markerPrestasi.object3D.visible) {
+        if (e.key === 'ArrowRight') {
+          indexPrestasi = (indexPrestasi + 1) % prestasiImages.length;
+          updatePrestasi();
+        } else if (e.key === 'ArrowLeft') {
+          indexPrestasi = (indexPrestasi - 1 + prestasiImages.length) % prestasiImages.length;
+          updatePrestasi();
+        } else if (e.key === ' ') {
+          prestasiAudios[indexPrestasi].play();
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>
